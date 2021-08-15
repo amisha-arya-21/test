@@ -1,0 +1,15 @@
+#index:
+#    path: /
+#    controller: App\Controller\DefaultController::index
+api_login_check:
+  path: /login_check
+
+api_player_create:
+  path: /api/players
+  methods: POST
+  controller: Test\Controller\Player\PlayerController::index
+
+api_game_list:
+  path: /api/games
+  controller: Test\Controller\Game\ListController::index
+  methods: GET

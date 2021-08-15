@@ -1,0 +1,39 @@
+version: '3.8'
+services:
+  app:
+    build:
+      context: ./
+      dockerfile: Dockerfile
+    container_name: test-api
+    ports:
+      - "8080:8080"
+    restart: unless-stopped
+    depends_on:
+      - db
+    volumes:
+      - ./:/var/www
+  nginx:
+    image: nginx
+    container_name: test-nginx
+    restart: unless-stopped
+    ports:
+      - "8000:80"
+    volumes:
+      - ./:/var/www
+      - ./config/docker/nginx:/etc/nginx/conf.d
+  adminer:
+    image: adminer
+    restart: always
+    ports:
+      - "7000:7000"
+  db:
+    image: mysql
+    container_name: test-db
+    restart: unless-stopped
+    environment:
+      MYSQL_DATABASE: test-api
+      MYSQL_ROOT_PASSWORD: 123
+      MYSQL_PASSWORD: 123
+      MYSQL_USER: test
+    volumes:
+      - ./config/docker/mysql:/docker-entrypoint-initdb.d
